@@ -10,13 +10,18 @@ import { CarService } from 'src/app/services/car/car.service';
 export class CarComponent implements OnInit {
   cars:Car[]=[];
   dataLoaded=false;
-
-  constructor(private carService: CarService) { }
+  constructor(private carService:CarService) { }
 
   ngOnInit(): void {
+    this.getCars();
   }
-  getProducts(){
-    this.carService
+  getCars()
+  {
+    this.carService.getCars().subscribe((response)=>
+    {
+      this.cars=response.data;
+      this.dataLoaded=true;
+    })
   }
 
 }
