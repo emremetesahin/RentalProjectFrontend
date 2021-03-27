@@ -4,7 +4,7 @@
         <th scope="col">First</th>
       </tr>
     </thead>
-    <tbody *ngFor="let customer of customers">
+    <tbody routerLink="customer/{{customer.companyName}}" *ngFor="let customer of customers">
       <tr>
         <td>{{customer.companyName}}</td>
 

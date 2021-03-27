@@ -11,6 +11,7 @@ import { NaviComponent } from './components/navi/navi.component';
 import { CarComponent } from './components/car/car.component';
 import { UserComponent } from './components/user/user.component';
 import { CustomerComponent } from './components/customer/customer.component';
+import { CarImageComponent } from './components/car-image/car-image.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CustomerComponent } from './components/customer/customer.component';
     CarComponent,
     UserComponent,
     CustomerComponent,
+    CarImageComponent,
   ],
   imports: [
     BrowserModule,

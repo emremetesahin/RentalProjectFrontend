@@ -1,12 +1,5 @@
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Renk Adı</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let color of colors" >
-        <td>{{color.colorName}}</td>
-  
-      </tr>
-  </table>
+<ul class="list-group">
+  <li routerLink="cars"(click)=deleteCurrentColor() [class]="getAllColorClass()">Tüm Renkler</li>
+  <li routerLink="cars/colors/{{color.colorId}}" (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" *ngFor="let color of colors">{{ color.colorName }}</li>
+</ul>
+<h5 *ngIf="currentColor">{{currentColor.colorName}} Seçtiniz</h5>

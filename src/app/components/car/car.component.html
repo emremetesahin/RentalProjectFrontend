@@ -1,7 +1,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col"></th>
       <th scope="col">Marka Adı</th>
       <th scope="col">Renk Adı</th>
       <th scope="col">Günlük Ücret</th>
@@ -9,14 +9,15 @@
       <th scope="col">Model Yılı</th>
     </tr>
   </thead>
-  <tbody *ngFor="let car of cars">
-    <tr>
-      <th scope="row">{{ car.id }}</th>
+  <tbody  [class]="getCurrentCarClass(car)" *ngFor="let car of cars" (click)="setCurrentCar(car)">
+    <tr >
+      <th  scope="row">{{car.id}}</th>
       <td>{{ car.brandName }}</td>
       <td>{{ car.colorName }}</td>
       <td>{{ car.dailyPrice }}</td>
       <td>{{ car.description }}</td>
       <td>{{ car.modelYear }}</td>
+<td><button routerLink="cars/{{car.brandName}}" type="button" class="btn btn-outline-secondary btn-sm" routerLink="cars/cardetails/{{car.id}}">Detay Sayfası</button></td>
     </tr>
   </tbody>
 </table>
