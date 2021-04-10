@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Car } from 'src/app/models/car';
-import { CarImage } from 'src/app/models/carImage';
+import { Car } from 'src/app/models/listModels/car';
+import { CarImage } from 'src/app/models/listModels/carImage';
 import { CarImageService } from 'src/app/services/car-image.service';
 import { CarService } from 'src/app/services/car.service';
+import { RentalService } from 'src/app/services/rental.service';
 
 @Component({
   selector: 'app-car-image',
@@ -12,13 +13,18 @@ import { CarService } from 'src/app/services/car.service';
 })
 export class CarImageComponent implements OnInit {
   apiURL = 'https://localhost:44390/';
-
   carImages: CarImage[];
   carDetails:Car[];
+  isRentable:boolean;
+  buttonClick:boolean=false;
+  rentDate:Date=null;
+  returnDate:Date=null;
+  carPrice:Number=null;
   constructor(
     private carImageService: CarImageService,
     private activatedRoute: ActivatedRoute,
-    private carService:CarService
+    private carService:CarService,
+    private rentalService:RentalService
   ) {}
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
@@ -26,16 +32,22 @@ export class CarImageComponent implements OnInit {
       {
         this.getImagesByCar(params['carId']);
         this.getCarById(params['carId']);
+        this.CheckRentable(params['carId']);
       }
     });
+  }
+
+  CheckRentable(carId:number)
+  {
+    this.rentalService.CheckRentalable(carId).subscribe((response)=>
+    {
+      this.isRentable=response.success;
+    })
+
   }
   getImagesByCar(carId: number) {
     this.carImageService.getImagesByCar(carId).subscribe((response) => {
       this.carImages = response.data;
-      if(response.data[0]["imagePath"]==null)
-      {
-        this.carImages[0]["imagePath"]=this.apiURL+response.data[0]["imagePath"];
-      }
     });
   }
   getCarById(carid:number)
@@ -43,6 +55,7 @@ export class CarImageComponent implements OnInit {
     this.carService.getCarsById(carid).subscribe((response)=>
     {
       this.carDetails=response.data;
+      this.carPrice=response.data[0]["dailyPrice"]
     })
   }
   getSliderClassName(index:number)
@@ -52,6 +65,10 @@ export class CarImageComponent implements OnInit {
       return "carousel-item active";
     }
     else{ return "carousel-item"}
+  }
+  goPaymentPage()
+  {
+    this.buttonClick=true;
   }
 
 }

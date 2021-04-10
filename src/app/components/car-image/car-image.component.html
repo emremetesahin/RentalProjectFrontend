@@ -1,56 +1,110 @@
-<div class="row">
-  <div class="col-md-7">
-    <div class="card" style="width: 38rem" *ngFor="let carDetail of carDetails">
+<div class="container" *ngIf="buttonClick==false">
+  <div class="row">
+    <div class="col-md-12 mt-2">
       <div
-        id="carouselExampleIndicators"
-        class="carousel slide"
-        data-bs-ride="carousel"
+        class="card"
+        style="width: 50rem"
+        *ngFor="let carDetail of carDetails"
       >
-        <div class="carousel-inner">
-          <div
-            *ngFor="let carImage of carImages; let i = index"
-            [ngClass]="getSliderClassName(i)"
-          >
-            <img
-              src="{{ apiURL }}{{ carImage.imagePath }}"
-              class="d-block"
-              width="100%"
-              height="100%"
-              alt="..."
-            />
+        <div
+          id="carouselExampleIndicators"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <div
+              *ngFor="let carImage of carImages; let i = index"
+              [ngClass]="getSliderClassName(i)"
+            >
+              <img
+                src="{{ apiURL }}{{ carImage.imagePath }}"
+                class="d-block"
+                width="100%"
+                height="100%"
+                alt="..."
+              />
+            </div>
           </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
         </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </button>
       </div>
     </div>
   </div>
-  <div class="col-md-5">
-    <div class="card" style="width: 18rem;" *ngFor="let carDetail of carDetails">
-    <div class="card-header">
-      {{carDetail.brandName}}
+  <div class="row">
+    <div class="col-md-4 pt-2">
+      <div
+        class="card"
+        style="width: 18rem"
+        *ngFor="let carDetail of carDetails"
+      >
+        <div class="card-header">
+          {{ carDetail.brandName }}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Renk: {{ carDetail.colorName }}</li>
+          <li class="list-group-item">Model: {{ carDetail.modelYear }}</li>
+          <li class="list-group-item">Açıklama: {{ carDetail.description }}</li>
+          <li class="list-group-item">
+            Günlük Ücret: {{ carDetail.dailyPrice }}
+          </li>
+        </ul>
+      </div>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Renk: {{carDetail.colorName}}</li>
-      <li class="list-group-item">Model: {{carDetail.modelYear}}</li>
-      <li class="list-group-item">Açıklama: {{carDetail.description}}</li>
-      <li class="list-group-item">Günlük Ücret: {{carDetail.dailyPrice}}</li>
-    </ul>
+    <div class="col-md-8" *ngIf="isRentable">
+      <div class="form-group row col-md-10 my-2">
+        <label for="rentDateTime" class="col-4 col-form-label"
+          >Kiralama Tarihi</label
+        >
+        <div class="col-6">
+          <input
+            class="form-control"
+            [(ngModel)]="rentDate"
+            type="date"
+            value="2011-08-19"
+            id="rentDateTime"
+          />
+        </div>
+      </div>
+      <div class="form-group row col-md-10">
+        <label for="returnDateTime" class="col-4 col-form-label"
+          >Dönüş Tarihi</label>
+        <div class="col-6">
+          <input
+            class="form-control"
+            [(ngModel)]="returnDate"
+            type="date"
+            value="2011-08-19"
+            id="returnDateTime"
+          />
+        </div>
+      </div>
+      <button type="button" class="btn btn-info d-flex"  (click)="goPaymentPage()">Kirala</button>
+    </div>
+    <div class="col-md-5 my-5">
+      <div *ngIf="!isRentable"
+        class="alert alert-warning"
+        style="text-align: center; width: 12rem"
+        role="alert"
+      >
+        Üzgünüz bu araç şu an kiralanmış.
+      </div>
+    </div>
   </div>
 </div>
-</div>
+<app-payment rentDate="{{rentDate}}"returnDate="{{returnDate}}" carPrice="{{carPrice}}" *ngIf="buttonClick==true"  ></app-payment>

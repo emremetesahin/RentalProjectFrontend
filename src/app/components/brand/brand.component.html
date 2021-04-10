@@ -1,6 +1,16 @@
 <ul class="list-group">
-  <li routerLink="" (click)="deleteCurrentBrand()" [class]="getAllBrandClass()">Tüm Araçlar</li>
-  <li routerLink="cars/brands/{{brand.brandId}}" (click)="setCurrentBrand(brand)" *ngFor="let brand of brands" [class]="getCurrentBrandClass(brand)">{{brand.brandName}}</li>
+  <li class="list-group-item mt-2"> <div class="form-group">
+    <input type="text" class="form-control" [(ngModel)]="filterText" id="filterText" aria-describedby="emailHelp" placeholder="Marka adı giriniz">
+  </div></li>
+  <li routerLink="" (click)="deleteCurrentBrand()" [class]="getAllBrandClass()">Tüm Markalar</li>
+  <li routerLink="/brand/{{brand.brandName}}" (click)="setCurrentBrand(brand)" *ngFor="let brand of brands |brandFilter:filterText" [class]="getCurrentBrandClass(brand)">{{brand.brandName}}</li>
 </ul>
-<h5 *ngIf="currentBrand">{{currentBrand.brandName}} seçtiniz</h5>
 
+  <!--
+<form #userForm="ngForm">
+<input type="text" name="brandIdFormDegeri" [(ngModel)]="brandModel.brandId"><br>
+  <input type="text" name="brandNameFormDegeri" [(ngModel)]="brandModel.brandName"><br>
+</form>
+  {{userForm.value|json}}
+  <hr>
+  {{brandModel|json}}-->

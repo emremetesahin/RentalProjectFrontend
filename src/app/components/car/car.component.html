@@ -1,23 +1,50 @@
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Marka Adı</th>
-      <th scope="col">Renk Adı</th>
-      <th scope="col">Günlük Ücret</th>
-      <th scope="col">Açıklama</th>
-      <th scope="col">Model Yılı</th>
-    </tr>
-  </thead>
-  <tbody  [class]="getCurrentCarClass(car)" *ngFor="let car of cars" (click)="setCurrentCar(car)">
-    <tr >
-      <th  scope="row">{{car.id}}</th>
-      <td>{{ car.brandName }}</td>
-      <td>{{ car.colorName }}</td>
-      <td>{{ car.dailyPrice }}</td>
-      <td>{{ car.description }}</td>
-      <td>{{ car.modelYear }}</td>
-<td><button routerLink="cars/{{car.brandName}}" type="button" class="btn btn-outline-secondary btn-sm" routerLink="cars/cardetails/{{car.id}}">Detay Sayfası</button></td>
-    </tr>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-md-3 my-2">
+    <input
+      type="text"
+      [(ngModel)]="filterText"
+      class="form-control"
+      id="filterText"
+      placeholder="Araç arayın"
+    />
+  </div>
+  <div class="col-md-8 my-2">
+    <app-car-filter></app-car-filter>
+  </div>
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Marka Adı</th>
+        <th scope="col">Renk Adı</th>
+        <th scope="col">Günlük Ücret</th>
+        <th scope="col">Kdvli Ücret</th>
+        <th scope="col">Açıklama</th>
+        <th scope="col">Model Yılı</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody
+      [class]="getCurrentCarClass(car)"
+      *ngFor="let car of cars | carFilter: filterText"
+      (click)="setCurrentCar(car)"
+    >
+      <tr>
+        <th scope="row">{{ car.id }}</th>
+        <td>{{ car.brandName }}</td>
+        <td>{{ car.colorName }}</td>
+        <td>{{ car.dailyPrice | currency: "₺" }}</td>
+        <td>{{ car.dailyPrice | vatAdded: 18 | currency: "₺" }}</td>
+        <td>{{ car.description }}</td>
+        <td>{{ car.modelYear }}</td>
+        <td>
+          <button
+             type="button" class="btn btn-outline-secondary btn-sm" routerLink="/details/{{ car.id }}"
+          >
+            İncele
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

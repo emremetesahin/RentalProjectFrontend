@@ -1,5 +1,7 @@
-<ul class="list-group">
-  <li routerLink="cars"(click)=deleteCurrentColor() [class]="getAllColorClass()">Tüm Renkler</li>
-  <li routerLink="cars/colors/{{color.colorId}}" (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" *ngFor="let color of colors">{{ color.colorName }}</li>
+<ul class="list-group pt-2">
+  <li class="list-group-item"><div class="form-group">
+    <input [(ngModel)]="filterText" type="text" class="form-control" id="filterText" aria-describedby="emailHelp" placeholder="Renk adı giriniz">
+  </div></li>
+  <li routerLink=""(click)=deleteCurrentColor() [class]="getAllColorClass()">Tüm Renkler</li>
+  <li routerLink="/color/{{color.colorName}}" (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" *ngFor="let color of colors |colorFilter:filterText">{{ color.colorName }}</li>
 </ul>
-<h5 *ngIf="currentColor">{{currentColor.colorName}} Seçtiniz</h5>
