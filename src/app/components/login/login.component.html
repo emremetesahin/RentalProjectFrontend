@@ -1,0 +1,18 @@
+<div class=" fadeInDown">
+    <div id="formContent">
+
+      <div class="fadeIn first">
+      </div>
+  
+      <form [formGroup]="loginForm">
+        <input type="text" id="email" class="fadeIn second" name="email" formControlName="email" placeholder="login">
+        <input type="text" id="password" class="fadeIn third" name="password" formControlName="password" placeholder="password">
+        <input type="submit" (click)="login()" class="fadeIn fourth" value="Log In">
+      </form>
+  
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Forgot Password?</a>
+      </div>
+  
+    </div>
+  </div>
