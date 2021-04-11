@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CarImageComponent } from './components/car-image/car-image.component';
 import { CarComponent } from './components/car/car.component';
+import { LoginGuard } from './components/guards/login.guard';
 import { BrandListComponent } from './components/list/brand-list/brand-list.component';
 import { CarListComponent } from './components/list/car-list/car-list.component';
 import { ColorListComponent } from './components/list/color-list/color-list.component';
@@ -22,7 +23,7 @@ const routes: Routes = [
   {path:"color/:colorName",pathMatch:"full",component:CarComponent},
   {path:"cars/brand/:brandName/color/:colorName",pathMatch:"full",component:CarComponent},
   {path:"payment/:carId",component:PaymentComponent},
-  {path:"add/brand",component:BrandAddComponent},
+  {path:"add/brand",component:BrandAddComponent,canActivate:[LoginGuard]},
   {path:"add/color",component:ColorAddComponent},
   {path:"add/car",component:CarAddComponent},
   {path:"list/car",component:CarListComponent},
