@@ -1,0 +1,10 @@
+<div class="container-fluid mt-5">
+  <div class="col-md-6">
+      <div class="mb-3">
+    <h5>Yeni marka adı giriniz</h5>
+    <input class="form-control form-control-lg" [(ngModel)]="newBrand.brandName"  type="text">
+</div>
+<button class="btn btn-success" (click)="update()" routerLink="/list/brand">Güncelle</button>
+  </div>
+</div>
+{{newBrand|json}}

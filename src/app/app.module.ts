@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import{BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,15 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { CreditCardNumberPipe } from './components/pipes/credit-card-number.pipe';
 
 import {ToastrModule} from "ngx-toastr";
+import { BrandAddComponent } from './components/pages/brand-add/brand-add.component';
+import { ColorAddComponent } from './components/pages/color-add/color-add.component';
+import { CarAddComponent } from './components/pages/car-add/car-add.component';
+import { BrandListComponent } from './components/list/brand-list/brand-list.component';
+import { CarListComponent } from './components/list/car-list/car-list.component';
+import { ColorListComponent } from './components/list/color-list/color-list.component';
+import { BrandUpdateComponent } from './components/update-pages/brand-update/brand-update.component';
+import { CarUpdateComponent } from './components/update-pages/car-update/car-update.component';
+import { ColorUpdateComponent } from './components/update-pages/color-update/color-update.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +51,15 @@ import {ToastrModule} from "ngx-toastr";
     CarFilterComponent,
     PaymentComponent,
     CreditCardNumberPipe,
+    BrandAddComponent,
+    ColorAddComponent,
+    CarAddComponent,
+    BrandListComponent,
+    CarListComponent,
+    ColorListComponent,
+    BrandUpdateComponent,
+    CarUpdateComponent,
+    ColorUpdateComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +67,7 @@ import {ToastrModule} from "ngx-toastr";
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot(
       {
         positionClass:"toast-bottom-right"

@@ -45,11 +45,4 @@ export class BrandComponent implements OnInit {
   deleteCurrentBrand() {
     this.currentBrand =null;
   }
-  addBrand()
-  {
-   this.brandService.addBrand(this.brandModel).subscribe((response)=>
-   {
-     alert(response);
-   });
-  }
 }

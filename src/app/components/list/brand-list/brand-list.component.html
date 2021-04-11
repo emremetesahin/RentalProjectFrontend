@@ -1,0 +1,17 @@
+<table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Renk</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let brand of brands">
+        <th scope="row"></th>
+        <td>{{brand.brandId}}</td>
+        <td>{{brand.brandName}}</td>
+        <td><button class="btn btn-warning" routerLink="/update/brand/{{brand.brandId}}">Güncelle</button></td>
+      </tr>
+    </tbody>
+  </table>
