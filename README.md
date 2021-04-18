@@ -1,6 +1,10 @@
 # RentCarFrontend
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.5.
+## Kullanılan Teknojiler
+- TypeScript 4.1.5
+- Angular 11.2.5
+- Bootstrap 5.0.0-beta2
+- Jquery 3.6.0
+- Toastr 13.2.1
 
 ## Development server
 
