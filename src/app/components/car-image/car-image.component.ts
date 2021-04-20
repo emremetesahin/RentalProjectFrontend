@@ -1,10 +1,21 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Car } from 'src/app/models/listModels/car';
 import { CarImage } from 'src/app/models/listModels/carImage';
 import { CarImageService } from 'src/app/services/car-image.service';
 import { CarService } from 'src/app/services/car.service';
 import { RentalService } from 'src/app/services/rental.service';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validator,
+  Validators,
+} from '@angular/forms';
+import { Rental } from 'src/app/models/listModels/rental';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-car-image',
@@ -13,62 +24,90 @@ import { RentalService } from 'src/app/services/rental.service';
 })
 export class CarImageComponent implements OnInit {
   apiURL = 'https://localhost:44390/';
+  carDetails: Car = null;
+  dataLoaded: boolean = false;
   carImages: CarImage[];
-  carDetails:Car[];
-  isRentable:boolean;
-  buttonClick:boolean=false;
-  rentDate:Date=null;
-  returnDate:Date=null;
-  carPrice:Number=null;
+  rentDatesForm: FormGroup;
+  carId: number;
+  rentable: boolean;
   constructor(
     private carImageService: CarImageService,
     private activatedRoute: ActivatedRoute,
-    private carService:CarService,
-    private rentalService:RentalService
+    private carService: CarService,
+    private rentalService: RentalService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
+    private router: Router,
+    private authService: AuthService
   ) {}
+
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
-      if(params["carId"])
-      {
-        this.getImagesByCar(params['carId']);
-        this.getCarById(params['carId']);
-        this.CheckRentable(params['carId']);
-      }
+      this.getCarDetailsById(parseInt(params['carId']));
+      this.getCarImagesById(parseInt(params['carId']));
+      this.carId = parseInt(params['carId']);
+    });
+    this.createFormBuilder();
+    this.checkRentable();
+  }
+  checkRentable() {
+    this.rentalService.CheckRentalable(this.carId).subscribe((response) => {
+      this.rentable = response.success;
     });
   }
-
-  CheckRentable(carId:number)
-  {
-    this.rentalService.CheckRentalable(carId).subscribe((response)=>
-    {
-      this.isRentable=response.success;
-    })
-
+  createFormBuilder() {
+    this.rentDatesForm = this.formBuilder.group({
+      rentDate: ['', Validators.required],
+      returnDate: [''],
+    });
   }
-  getImagesByCar(carId: number) {
+  getCarDetailsById(carId: number) {
+    this.carService.getCarsById(carId).subscribe((response) => {
+      this.carDetails = response.data;
+      console.log(response.data);
+      this.dataLoaded = true;
+    });
+  }
+  getCarImagesById(carId: number) {
     this.carImageService.getImagesByCar(carId).subscribe((response) => {
       this.carImages = response.data;
     });
   }
-  getCarById(carid:number)
-  {
-    this.carService.getCarsById(carid).subscribe((response)=>
-    {
-      this.carDetails=response.data;
-      this.carPrice=response.data[0]["dailyPrice"]
-    })
-  }
-  getSliderClassName(index:number)
-  {
-    if(index==0)
-    {
-      return "carousel-item active";
+  sliderActiveItemClass(index: number) {
+    if (index == 0) {
+      return 'carousel-item active';
+    } else {
+      return 'carousel-item';
     }
-    else{ return "carousel-item"}
   }
-  goPaymentPage()
-  {
-    this.buttonClick=true;
-  }
+  addRental() {
+    if (this.rentDatesForm.valid) {
+      if(this.authService.isAuthenticated()==true)
+      {
+      console.log("Giriş Yapılmış");
+        let customerIdfromToken = this.authService.getTokenDetail().userId;
+        let rentalModel = Object.assign(
+          { carId: this.carId, customerId: customerIdfromToken },
+          this.rentDatesForm.value);
+        console.log(rentalModel);
+        this.rentalService.addRental(rentalModel).subscribe((response) => {
+          this.toastr.success(response.message); 
+          this.rentalService.getRentalId(rentalModel).subscribe((responseData) => {
+            console.log(responseData.data.id);
+            this.router.navigate(['rental/' + responseData.data.id + '/payment']);
 
+        });
+          });
+
+        }
+        else
+        {
+          this.toastr.warning("Lütfen giriş yapınız");
+          this.router.navigate(["login"]);
+        }
+      
+    } else {
+      this.toastr.warning('Lütfen Kiralama Tarihini giriniz');
+    }
+  }
 }

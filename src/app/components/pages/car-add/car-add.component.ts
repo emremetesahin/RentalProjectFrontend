@@ -16,10 +16,10 @@ import { CarService } from 'src/app/services/car.service';
   styleUrls: ['./car-add.component.css'],
 })
 export class CarAddComponent implements OnInit {
-  carAddForm!: FormGroup;
+  carAddForm: FormGroup;
   carImageAddForm: FormGroup;
-  lastCarId!: number;
-  selectedFiles!: File;
+  lastCarId: number;
+  selectedFiles: File;
   urllink: string = null;
   constructor(
     private carService: CarService,

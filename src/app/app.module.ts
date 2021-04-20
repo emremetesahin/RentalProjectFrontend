@@ -4,6 +4,9 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import{BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
+import  {JwtPayload,JwtDecodeOptions,InvalidTokenError,JwtHeader} from "jwt-decode"
+import {ToastrModule} from "ngx-toastr";
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrandComponent } from './components/brand/brand.component';
@@ -21,8 +24,6 @@ import { BrandFilterPipe } from './components/pipes/brand-filter.pipe';
 import { CarFilterComponent } from './components/car-filter/car-filter.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { CreditCardNumberPipe } from './components/pipes/credit-card-number.pipe';
-
-import {ToastrModule} from "ngx-toastr";
 import { BrandAddComponent } from './components/pages/brand-add/brand-add.component';
 import { ColorAddComponent } from './components/pages/color-add/color-add.component';
 import { CarAddComponent } from './components/pages/car-add/car-add.component';
@@ -34,6 +35,9 @@ import { CarUpdateComponent } from './components/update-pages/car-update/car-upd
 import { ColorUpdateComponent } from './components/update-pages/color-update/color-update.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthInterceptor } from './components/interceptors/auth.interceptor';
+
+
+
 
 @NgModule({
   declarations: [
@@ -75,10 +79,11 @@ import { AuthInterceptor } from './components/interceptors/auth.interceptor';
       {
         positionClass:"toast-bottom-right"
       }
-    )
+    ),
+    
+
   ],
-  providers: [
-    {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi:true}
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
 })

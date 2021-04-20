@@ -21,6 +21,7 @@
         <th scope="col">Kdvli Ücret</th>
         <th scope="col">Açıklama</th>
         <th scope="col">Model Yılı</th>
+        <th scope="col">Findeks Puanı</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -37,6 +38,7 @@
         <td>{{ car.dailyPrice | vatAdded: 18 | currency: "₺" }}</td>
         <td>{{ car.description }}</td>
         <td>{{ car.modelYear }}</td>
+        <td>{{car.minFindeksScore}}</td>
         <td>
           <button
              type="button" class="btn btn-outline-secondary btn-sm" routerLink="/details/{{ car.id }}"

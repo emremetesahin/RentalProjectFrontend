@@ -1,6 +1,7 @@
 export interface CreditCard
 {
-    id:number,
+    id?:number,
+    UserId:number,
     cardNumber:string,
     holderName:string,
     expirationDate:string,

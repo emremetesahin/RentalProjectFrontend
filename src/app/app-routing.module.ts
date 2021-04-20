@@ -22,17 +22,17 @@ const routes: Routes = [
   {path:"brand/:brandName",pathMatch:"full",component:CarComponent},
   {path:"color/:colorName",pathMatch:"full",component:CarComponent},
   {path:"cars/brand/:brandName/color/:colorName",pathMatch:"full",component:CarComponent},
-  {path:"payment/:carId",component:PaymentComponent},
   {path:"add/brand",component:BrandAddComponent,canActivate:[LoginGuard]},
-  {path:"add/color",component:ColorAddComponent},
-  {path:"add/car",component:CarAddComponent},
+  {path:"add/color",component:ColorAddComponent,canActivate:[LoginGuard]},
+  {path:"add/car",component:CarAddComponent,canActivate:[LoginGuard]},
   {path:"list/car",component:CarListComponent},
   {path:"list/color",component:ColorListComponent},
   {path:"list/brand",component:BrandListComponent},
   {path:"update/car/:carId",component:CarUpdateComponent},
   {path:"update/color/:colorId",component:ColorUpdateComponent},
   {path:"update/brand/:brandId",component:BrandUpdateComponent},
-  {path:"login",component:LoginComponent}
+  {path:"login",component:LoginComponent},
+  {path:"rental/:rentalId/payment",component:PaymentComponent}
   ]
 
 
