@@ -94,7 +94,7 @@ export class PaymentComponent implements OnInit {
         this.paymentService.addPayment(this.paymentModel).subscribe((response)=>
         {
           this.toastrService.success(response.message)
-          this.router.navigate(["cars"]) //
+          this.router.navigate(["cars"])
           
         })
       }
