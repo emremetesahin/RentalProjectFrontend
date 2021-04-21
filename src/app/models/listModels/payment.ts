@@ -1,8 +1,8 @@
 export interface Payment
 {
-    id:number,
+    id?:number,
     rentalId:number,
     amountPaid:number,
-    paymentDate:Date
+    paymentDate?:Date
     
 }

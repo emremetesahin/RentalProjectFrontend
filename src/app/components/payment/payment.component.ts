@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CreditCard } from 'src/app/models/listModels/creditCard';
 import {
@@ -15,6 +15,8 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { RentalService } from 'src/app/services/rental.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Rental } from 'src/app/models/listModels/rental';
+import { Payment } from 'src/app/models/listModels/payment';
 
 @Component({
   selector: 'app-payment',
@@ -25,7 +27,15 @@ export class PaymentComponent implements OnInit {
   savedCreditCards: CreditCard[];
   creditCardForm: FormGroup;
   LoginnedUserId: Number;
-  enteredCreditcard:CreditCard={UserId:null,cardNumber:null,cvv:null,expirationDate:null,holderName:null,id:null};
+  paymentModel:Payment;
+  enteredCreditcard: CreditCard = {
+    UserId: null,
+    cardNumber: null,
+    cvv: null,
+    expirationDate: null,
+    holderName: null,
+    id: null,
+  };
   constructor(
     private creditCardService: CreditCardService,
     private paymentService: PaymentService,
@@ -34,13 +44,17 @@ export class PaymentComponent implements OnInit {
     private toastrService: ToastrService,
     private localStorageService: LocalStorageService,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.createCreditCardForm();
     this.LoginnedUserId = this.authService.getTokenDetail().userId;
     this.getCreditCards(this.LoginnedUserId);
+    this.setPaymentModel();
+    this.setPaymentModel();
+    
   }
   createCreditCardForm() {
     this.creditCardForm = this.formBuilder.group({
@@ -72,8 +86,21 @@ export class PaymentComponent implements OnInit {
     }
   }
   pay() {
-    let creditCardModel = Object.assign('', this.creditCardForm);
-    console.log(creditCardModel);
+    if (this.creditCardForm.valid) {
+      if (!this.authService.isAuthenticated) {
+        this.toastrService.warning('Lütfen giriş yapınız');
+        this.router.navigate(['login']);
+      } else {
+        this.paymentService.addPayment(this.paymentModel).subscribe((response)=>
+        {
+          this.toastrService.success(response.message)
+          this.router.navigate(["cars"])
+          
+        })
+      }
+    } else {
+      this.toastrService.warning('Lütfen ödeme bilgilerini giriniz');
+    }
   }
   deleteCreditCard(creditCard: CreditCard) {
     this.creditCardService
@@ -83,7 +110,21 @@ export class PaymentComponent implements OnInit {
         this.getCreditCards(this.LoginnedUserId);
       });
   }
-  useSavedCard(creditCard:CreditCard){
-    this.enteredCreditcard=creditCard;
+  useSavedCard(creditCard: CreditCard) {
+    this.enteredCreditcard = creditCard;
+  }
+
+  setPaymentModel()
+  {
+    this.activatedRoute.params.subscribe((params)=>
+    {
+    this.rentalService.getRentaById(parseInt(params["rentalId"])).subscribe((response)=>
+    {
+      let result=(response.data);
+   this.paymentModel=Object.assign({rentalId:result.id,amountPaid:result.price})
+   
+    }
+    )
+    })
   }
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PaymentAdd } from '../models/addModels/paymentAdd';
+import { Payment } from '../models/listModels/payment';
+import { ResponseModel } from '../models/responseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,8 @@ import { PaymentAdd } from '../models/addModels/paymentAdd';
 export class PaymentService {
   apiURL = 'https://localhost:44390/api/payments/';
   constructor(private httpClient:HttpClient) { }
-  addPayment(paymentAdd:PaymentAdd)
+  addPayment(payment:Payment)
   {
-    return this.httpClient.post(this.apiURL+"add",paymentAdd);
+    return this.httpClient.post<ResponseModel>(this.apiURL+"add",payment);
   }
 }

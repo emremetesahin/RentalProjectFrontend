@@ -12,8 +12,6 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
-import { Rental } from 'src/app/models/listModels/rental';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -43,10 +41,10 @@ export class CarImageComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
-      this.getCarDetailsById(parseInt(params['carId']));
-      this.getCarImagesById(parseInt(params['carId']));
       this.carId = parseInt(params['carId']);
     });
+    this.getCarDetailsById(this.carId);
+    this.getCarImagesById(this.carId);
     this.createFormBuilder();
     this.checkRentable();
   }
@@ -82,32 +80,38 @@ export class CarImageComponent implements OnInit {
   }
   addRental() {
     if (this.rentDatesForm.valid) {
-      if(this.authService.isAuthenticated()==true)
-      {
-      console.log("Giriş Yapılmış");
+      if (this.authService.isAuthenticated() == true) {
+        console.log('Giriş Yapılmış');
         let customerIdfromToken = this.authService.getTokenDetail().userId;
         let rentalModel = Object.assign(
-          { carId: this.carId, customerId: customerIdfromToken },
-          this.rentDatesForm.value);
+          { carId: this.carId, customerId: customerIdfromToken,price:this.CalculateRentPrice() },
+          this.rentDatesForm.value
+        );
         console.log(rentalModel);
         this.rentalService.addRental(rentalModel).subscribe((response) => {
-          this.toastr.success(response.message); 
-          this.rentalService.getRentalId(rentalModel).subscribe((responseData) => {
-            console.log(responseData.data.id);
-            this.router.navigate(['rental/' + responseData.data.id + '/payment']);
-
+          this.toastr.success(response.message);
+          this.rentalService
+            .getRentalId(rentalModel)
+            .subscribe((responseData) => {
+              console.log(responseData.data.id);
+              this.router.navigate([
+                'rental/' + responseData.data.id + '/payment',
+              ]);
+            });
         });
-          });
-
-        }
-        else
-        {
-          this.toastr.warning("Lütfen giriş yapınız");
-          this.router.navigate(["login"]);
-        }
-      
+      } else {
+        this.toastr.warning('Lütfen giriş yapınız');
+        this.router.navigate(['login']);
+      }
     } else {
       this.toastr.warning('Lütfen Kiralama Tarihini giriniz');
     }
+    
+  }
+  CalculateRentPrice()
+  {
+    let rentDate=new Date(this.rentDatesForm.value.rentDate)
+    let returnDate=new Date(this.rentDatesForm.value.returnDate)
+    return(returnDate.getDate()-rentDate.getDate())*this.carDetails.dailyPrice;
   }
 }

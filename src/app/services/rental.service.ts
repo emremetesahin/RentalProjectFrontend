@@ -13,7 +13,7 @@ import { SingleResponseModel } from '../models/singleResponseModel';
 export class RentalService {
   apiUrl = 'https://localhost:44390/api/rentals/';
   constructor(private httpclient: HttpClient) {}
-  getRentalers(): Observable<ListResponseModel<RentalDetailDto>> {
+  getRentalDetails(): Observable<ListResponseModel<RentalDetailDto>> {
     let newPath=this.apiUrl+"getrentaldetails";
     return this.httpclient.get<ListResponseModel<RentalDetailDto>>(newPath);
   }
@@ -33,5 +33,9 @@ export class RentalService {
   getRentalId(rental:Rental) {
     let newPath=this.apiUrl+"getrentalid";
     return this.httpclient.post<SingleResponseModel<Rental>>(newPath,rental);
+  }
+  getRentaById(rentalId:number):Observable<SingleResponseModel<Rental>> {
+    let newPath=this.apiUrl+"getrentalbyid?rentalId="+rentalId;
+    return this.httpclient.get<SingleResponseModel<Rental>>(newPath);
   }
 }

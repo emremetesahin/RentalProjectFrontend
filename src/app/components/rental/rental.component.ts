@@ -12,11 +12,11 @@ rentals:RentalDetailDto[]=[];
   constructor(private rentalService:RentalService) { }
 
   ngOnInit(): void {
-    this.getRentalers();
+    this.getRentalDetails();
   }
-  getRentalers()
+  getRentalDetails()
   {
-    this.rentalService.getRentalers().subscribe((response)=>
+    this.rentalService.getRentalDetails().subscribe((response)=>
     {
       this.rentals=response.data;
     });
