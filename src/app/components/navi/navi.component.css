@@ -1,0 +1,16 @@
+.login-page
+{
+	margin-left: 500px;
+	width: 250px;
+}
+.login-page li
+{
+	text-align: center;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.login-page li button
+{
+	margin-top: 10px;
+	margin-left:10px;
+}

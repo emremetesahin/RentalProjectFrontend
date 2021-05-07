@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Brand } from 'src/app/models/listModels/brand';
 import { Car } from 'src/app/models/listModels/car';
 import { Color } from 'src/app/models/listModels/color';
+import { AuthService } from 'src/app/services/auth.service';
 import { CarService } from 'src/app/services/car.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-car',
@@ -18,9 +20,12 @@ export class CarComponent implements OnInit {
   currentCar:Car;
   filterText="";
   selectedBrand="";
+
     constructor(
     private carService: CarService,
     private activatedRoute: ActivatedRoute,
+    private localStorage:LocalStorageService,
+    private authService:AuthService
 
 
   ) {}
@@ -46,6 +51,7 @@ export class CarComponent implements OnInit {
 
       }
     });
+    
   }
   getCars() {
     this.carService.getCars().subscribe((response) => {

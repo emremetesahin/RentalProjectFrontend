@@ -35,6 +35,7 @@ import { CarUpdateComponent } from './components/update-pages/car-update/car-upd
 import { ColorUpdateComponent } from './components/update-pages/color-update/color-update.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthInterceptor } from './components/interceptors/auth.interceptor';
+import { TokenInterceptor } from './components/interceptors/token.interceptor';
 
 
 
@@ -83,7 +84,7 @@ import { AuthInterceptor } from './components/interceptors/auth.interceptor';
     
 
   ],
-  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi:true}
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi:true},{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}
   ],
   bootstrap: [AppComponent]
 })

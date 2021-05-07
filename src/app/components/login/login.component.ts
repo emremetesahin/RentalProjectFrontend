@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
           this.toastr.success(response.message);
           if (response.success) {
             this.localStorageService.set('token', response.data.token);
+            console.log(this.authService.getTokenDetail())
             this.router.navigate(['cars']);
           }
         },

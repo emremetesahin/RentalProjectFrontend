@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+<nav
+  class="navbar navbar-expand-lg navbar navbar-dark bg-dark"
+ 
+>
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/cars">Rental</a>
     <button
@@ -62,13 +65,19 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
-              <a class="dropdown-item" routerLink="/list/car">Araba Güncelleme</a>
+              <a class="dropdown-item" routerLink="/list/car"
+                >Araba Güncelleme</a
+              >
             </li>
             <li>
-              <a class="dropdown-item" routerLink="/list/brand">Marka Güncelleme</a>
+              <a class="dropdown-item" routerLink="/list/brand"
+                >Marka Güncelleme</a
+              >
             </li>
             <li>
-              <a class="dropdown-item" routerLink="/list/color">Renk Güncelleme</a>
+              <a class="dropdown-item" routerLink="/list/color"
+                >Renk Güncelleme</a
+              >
             </li>
           </ul>
         </li>
@@ -81,16 +90,32 @@
             >Disabled</a
           >
         </li>
-      </ul>
-      <form class="d-flex">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <form [formGroup]="loginForm">
+        <li class="nav-item dropdown login-page">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Üye Girişi
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+           <li><label for="email" formControlName="email" >Email adresiniz</label></li>
+           <li><input type="email" placeholder="example@example.com" id="email" class="form-control"></li>
+           <li><label for="password" formControlName="password" >Şifreniz</label></li>
+           <li><input type="password" placeholder="*********" id="password" class="form-control"></li>
+           <li><button class="btn btn-primary" (click)="login()">Giriş Yap</button>
+           
+            
+          </ul>
+        </li>
       </form>
+      </ul>
+      
+     
     </div>
   </div>
 </nav>
